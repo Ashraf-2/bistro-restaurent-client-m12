@@ -15,10 +15,12 @@ const Category = () => {
 
     return (
         <section>
-            <SectionTitle
-                subHeading={"From 11:00am to 10:00pm"}
-                heading={"Order Online"}>
-            </SectionTitle>
+            <div className='my-5'>
+                <SectionTitle
+                    subHeading={"From 11:00am to 10:00pm"}
+                    heading={"Order Online"}>
+                </SectionTitle>
+            </div>
             <Swiper
                 slidesPerView={4}
                 spaceBetween={20}
