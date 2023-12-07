@@ -34,7 +34,7 @@ const Testimonials = () => {
                                 readOnly
                             />
 
-                            <p>{review.details}</p>
+                            <p className="w-11/12">{review.details}</p>
                             <h3 className="text-2xl text-orange-400">{review.name}</h3>
                         </div>
                     </SwiperSlide>)
