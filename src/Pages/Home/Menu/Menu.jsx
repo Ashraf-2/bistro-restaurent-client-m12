@@ -1,10 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import Cover from "../../Shared/Cover/Cover";
-import PopularMenu from "../../PopularMenu/PopularMenu";
-import { useEffect, useState } from "react";
 import useMenu from "../../../Hooks/useMenu";
 import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
-import MenuItem from "../../Shared/MenuItem/MenuItem";
 import MenuCategory from "./MenuCategory/MenuCategory";
 import menuImg from "../../../assets/menu/menu-bg-img.jpg";
 import dessertImg from "../../../assets/menu/dessert-bg.jpeg";
@@ -30,21 +27,24 @@ const Menu = () => {
             {/* section "offer" */}
             <SectionTitle subHeading="Don't miss" heading="TODAY'S OFFER"></SectionTitle>
             <MenuCategory items={offered}></MenuCategory>
+            
             {/* section "dessert" */}
             <Cover img={dessertImg} title="DESSERTS" subTitle="Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."></Cover>
-            <MenuCategory items={dessert}></MenuCategory>
+            <MenuCategory title="dessert" items={dessert}></MenuCategory>
+            
             {/* section "pizza" */}
             <Cover img={pizzaImg} title="PIZZA" subTitle="Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."></Cover>
-            <MenuCategory items={pizza}></MenuCategory>
+            <MenuCategory title="pizza" items={pizza}></MenuCategory>
+            
             {/* section "salad" */}
             <Cover img={saladImg} title="SALADS" subTitle="Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."></Cover>
-            <MenuCategory items={salad}></MenuCategory>
+            <MenuCategory title="salad" items={salad}></MenuCategory>
 
             {/* section "soup" */}
             <Cover img={soupImg} subTitle="Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." title="SOUPS"> </Cover>
-            <MenuCategory items={soup}></MenuCategory>
+            <MenuCategory title="soups" items={soup}></MenuCategory>
 
-           
+
         </div>
     );
 };
