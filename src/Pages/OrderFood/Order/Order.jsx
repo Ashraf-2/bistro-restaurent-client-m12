@@ -8,21 +8,27 @@ import useMenu from "../../../Hooks/useMenu";
 import FoodCard from "../../../Components/FoodCard/FoodCard";
 import OrderTab from "../OrderTab/OrderTab";
 import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const Order = () => {
-    const [tabIndex, setTabIndex] = useState(0);
-
+    const categories = ['salad','pizza','dessert','soups','drinks'];
     const {category} = useParams();
+    const initialIndex = categories.indexOf(category);
+    const [tabIndex, setTabIndex] = useState(initialIndex);
+    const [menu] = useMenu();
+
     console.log(category);
     
-    const [menu] = useMenu();
-    const dessert = menu.filter(item => item.category === 'dessert');
     const salad = menu.filter(item => item.category === 'salad');
     const pizza = menu.filter(item => item.category === 'pizza');
-    const soup = menu.filter(item => item.category === 'soup');
+    const dessert = menu.filter(item => item.category === 'dessert');
+    const soups = menu.filter(item => item.category === 'soup');
     const drinks = menu.filter(item => item.category === 'drinks');
     return (
         <div>
+            <Helmet>
+                <title>Bistro Boss | Order Food</title>
+            </Helmet>
             <Cover img={orderCoverImg} title="Order Food" subTitle="Would you like to try a dish?"></Cover>
             <Tabs defaultIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
                 <TabList>
@@ -39,12 +45,15 @@ const Order = () => {
                 <TabPanel>
                     <OrderTab items={pizza}></OrderTab>
                 </TabPanel>
+
                 <TabPanel>
                     <OrderTab items={dessert}></OrderTab>
                 </TabPanel>
+
                 <TabPanel>
-                    <OrderTab items={soup}></OrderTab>
+                    <OrderTab items={soups}></OrderTab>
                 </TabPanel>
+
                 <TabPanel>
                     <OrderTab items={drinks}></OrderTab>
                 </TabPanel>

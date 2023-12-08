@@ -6,7 +6,7 @@ const MenuCategory = ({ items,title }) => {
     // console.log("items: ", items);
     return (
         <div className="my-16 w-9/12 mx-auto">
-            <div className="grid md:grid-cols-2 gap-10 ">
+            <div className="grid md:grid-cols-2 gap-10">
                 {
                     items.map(item => <MenuItem key={item._id} item={item}></MenuItem>)
                 }
