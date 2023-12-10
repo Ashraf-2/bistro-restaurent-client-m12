@@ -1,11 +1,50 @@
+/* eslint-disable no-unused-vars */
+import { useContext, useEffect, useState } from 'react';
+import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
+import { AuthContext } from '../../Providers/AuthProviders';
+import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
+
 
 const Login = () => {
+    const navigate = useNavigate();
+    const [disableLogin,setDisableLogin]= useState(true);
+
+    const {user,logIn} = useContext(AuthContext);
+
+    useEffect(()=>{
+        loadCaptchaEnginge(6); 
+    },[])
     const handleLogin = (e) => {
         e.preventDefault();
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email,password);
+        // console.log(email, password);
+        logIn(email,password)
+        .then(res => {
+            const user = res.user;
+            console.log(user);
+            Swal.fire({
+                title: "Good job!",
+                text: "Log in successfull!",
+                icon: "success"
+              });
+            navigate('/');
+        })
+        .catch(error => console.log(error))
+        
+    }
+    const handleValidateCaptcha=(e)=> {
+        const user_captcha_value = e.target.value;
+        console.log(user_captcha_value);
+        if(validateCaptcha(user_captcha_value)){
+            setDisableLogin(false)
+        }
+        else{
+            setDisableLogin(true);
+        }
+
     }
     return (
         <div className="hero min-h-screen bg-base-200">
@@ -31,10 +70,20 @@ const Login = () => {
                                 <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                             </label>
                         </div>
+                        <div className="form-control">
+                            <div>
+                                <LoadCanvasTemplate />
+                            </div>
+                            <input onBlur={handleValidateCaptcha} type="text" name="captcha" placeholder="write the captch above" className="input input-bordered" required />
+                            {/* <button  className='btn btn-outline btn-xs mt-1'>Validate</button> */}
+                        </div>
                         <div className="form-control mt-6">
-                            <input type="submit" value="Login" className="btn btn-info"></input>
+                            <input disabled={disableLogin} type="submit" value="Login" className="btn btn-info"></input>
                         </div>
                     </form>
+                    <div>
+                        <p>New Here? <Link to="/singUp"> <span className='font-bold'>Sign Up</span></Link></p>
+                    </div>
                 </div>
             </div>
         </div>
