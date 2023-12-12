@@ -2,19 +2,22 @@
 import { useContext, useEffect, useState } from 'react';
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../../Providers/AuthProviders';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'
 
 
 const Login = () => {
     const navigate = useNavigate();
     const [disableLogin,setDisableLogin]= useState(true);
-
+    const location = useLocation();
     const {user,logIn} = useContext(AuthContext);
+
+    const from = location.state?.from?.pathname || "/";
 
     useEffect(()=>{
         loadCaptchaEnginge(6); 
     },[])
+
     const handleLogin = (e) => {
         e.preventDefault();
         const form = e.target;
@@ -30,7 +33,8 @@ const Login = () => {
                 text: "Log in successfull!",
                 icon: "success"
               });
-            navigate('/');
+            navigate(from, {replace: true});
+            // navigate('/');
         })
         .catch(error => console.log(error))
         

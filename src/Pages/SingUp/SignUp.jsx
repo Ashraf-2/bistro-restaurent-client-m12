@@ -2,12 +2,15 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { LoadCanvasTemplate, loadCaptchaEnginge, validateCaptcha } from "react-simple-captcha";
 import { AuthContext } from "../../Providers/AuthProviders";
 import { Result } from "postcss";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
     // const captchaRef = useRef();
     // const [disableSignUp, setDisableSignUp] = useState(true);
 
-    const {regisertUser } = useContext(AuthContext);
+    const {regisertUser,updateUserProfile } = useContext(AuthContext);
+    const navigate = useNavigate();
     // useEffect(() => {
     //     loadCaptchaEnginge(6);
     // }, [])
@@ -18,12 +21,24 @@ const SignUp = () => {
         const email = form.email.value;
         const password = form.password.value;
         const name = form.name.value;
+        const photoUrl = form.photo_url.value;
         console.log(name,email, password);
 
         regisertUser(email,password)
         .then(res=> {
             const loggedUser = res.user;
             console.log(loggedUser);
+            updateUserProfile(name,photoUrl)
+            .then(res => {
+                console.log("profile update successfully")
+                Swal.fire({
+                    title: "Good job!",
+                    text: "Log in successfull!",
+                    icon: "success"
+                  });
+                navigate("/");
+            })
+            .catch(error => console.log(error))
         })
         .catch(error => console.log(error))
 
@@ -54,6 +69,12 @@ const SignUp = () => {
                                 <span className="label-text">Name</span>
                             </label>
                             <input type="text" name="name" placeholder="name" className="input input-bordered" required />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Photo Url</span>
+                            </label>
+                            <input type="text" name="photo_url" placeholder="photo link" className="input input-bordered" required />
                         </div>
                         <div className="form-control">
                             <label className="label">

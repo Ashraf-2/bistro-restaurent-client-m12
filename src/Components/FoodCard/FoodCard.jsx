@@ -1,6 +1,9 @@
 
 const FoodCard = ({ foodItem }) => {
-    const { image, price, name, recipe } = foodItem;
+    const { _id,image, price, name, recipe } = foodItem;
+    const handleAddToCart = (food) => {
+        console.log(food)
+    }
     return (
         <div className="card card-compact w-96 bg-slate-100 shadow-xl">
             <figure><img src={image} alt="Shoes" /></figure>
@@ -9,7 +12,7 @@ const FoodCard = ({ foodItem }) => {
                 <h2 className="card-title">{name}</h2>
                 <p>{recipe}</p>
                 <div className="card-actions justify-center">
-                    <button className="btn btn-outline bg-slate-200 text-yellow-600 focus:text-red-500 mt-5 border-0 border-b-4">Order Now</button>
+                    <button onClick={()=> {handleAddToCart(foodItem)}} className="btn btn-outline bg-slate-200 text-yellow-600 focus:text-red-500 mt-5 border-0 border-b-4">Order Now</button>
                 </div>
             </div>
         </div>
