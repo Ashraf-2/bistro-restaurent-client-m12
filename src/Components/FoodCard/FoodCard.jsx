@@ -1,8 +1,58 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+
+import { useContext } from "react";
+import useAuth from "../../Hooks/useAuth";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useCart from "../../Hooks/useCart";
 
 const FoodCard = ({ foodItem }) => {
     const { _id,image, price, name, recipe } = foodItem;
-    const handleAddToCart = (food) => {
-        console.log(food)
+    const {user} = useAuth();
+    const navigate = useNavigate();
+    const axiosSecure = useAxiosSecure();
+    const [,refetch] = useCart();
+
+    const handleAddToCart = async (food) => {
+        if(user && user.email){
+            //TODO: send cart item to the database 
+            console.log(user.email, food)
+            const cartItem = {
+                menuId: _id,
+                email: user.email,
+                name,
+                image,
+                price,
+            }
+            // axios.post('http://localhost:5000/carts',cartItem)  //previous version
+            axiosSecure.post('/carts',cartItem)
+            .then(res => {
+                console.log(res.data)
+                if(res.data.insertedId)
+                {
+                    Swal.fire({
+                        title: "Congratulations!",
+                        text: "You cart this food item successfully!",
+                        icon: "success"
+                      });
+                      refetch();
+                }
+            
+            })
+            .catch(error => console.log(error))
+        }
+        else{
+            Swal.fire({
+                title: "Unauthorized user",
+                text: "Please Log in first!",
+                icon: "error"
+              });
+            navigate('/login')
+            
+        }
     }
     return (
         <div className="card card-compact w-96 bg-slate-100 shadow-xl">
