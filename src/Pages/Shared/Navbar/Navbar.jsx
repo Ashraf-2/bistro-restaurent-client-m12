@@ -23,7 +23,7 @@ const Navbar = () => {
             <li> <Link to="/menu">Our Menu</Link> </li>
             <li> <Link to="/orderFood/salad">Order Food</Link> </li>
             <li>
-                <Link to="/">
+                <Link to="/dashboard/cart">
                     <FaCartPlus className="text-lg"></FaCartPlus>
 
                     <div className="badge badge-secondary">+{cart.length}</div>

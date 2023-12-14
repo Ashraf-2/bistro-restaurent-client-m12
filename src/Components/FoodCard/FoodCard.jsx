@@ -34,9 +34,13 @@ const FoodCard = ({ foodItem }) => {
                 if(res.data.insertedId)
                 {
                     Swal.fire({
-                        title: "Congratulations!",
-                        text: "You cart this food item successfully!",
-                        icon: "success"
+                        position: "top-right",
+                        title: `${food.name} add to cart!`,
+                        // text: "You cart this food item successfully!",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 1500,
+
                       });
                       refetch();
                 }
