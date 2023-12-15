@@ -4,12 +4,13 @@ import { AuthContext } from "../../Providers/AuthProviders";
 import { Result } from "postcss";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const SignUp = () => {
     // const captchaRef = useRef();
     // const [disableSignUp, setDisableSignUp] = useState(true);
-
-    const {regisertUser,updateUserProfile } = useContext(AuthContext);
+    const axiosPublic = useAxiosPublic();
+    const { regisertUser, updateUserProfile } = useContext(AuthContext);
     const navigate = useNavigate();
     // useEffect(() => {
     //     loadCaptchaEnginge(6);
@@ -22,25 +23,33 @@ const SignUp = () => {
         const password = form.password.value;
         const name = form.name.value;
         const photoUrl = form.photo_url.value;
-        console.log(name,email, password);
+        console.log(name, email, password);
 
-        regisertUser(email,password)
-        .then(res=> {
-            const loggedUser = res.user;
-            console.log(loggedUser);
-            updateUserProfile(name,photoUrl)
+        regisertUser(email, password)
             .then(res => {
-                console.log("profile update successfully")
-                Swal.fire({
-                    title: "Good job!",
-                    text: "Log in successfull!",
-                    icon: "success"
-                  });
-                navigate("/");
+                const loggedUser = res.user;
+                console.log(loggedUser);
+                updateUserProfile(name, photoUrl)
+                    // create user entry in the database
+                    .then(res => {
+                        const userInfo = {name: name, email: email };
+                        axiosPublic.post('/users', userInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    console.log("profile update successfully and added to the database")
+                                    Swal.fire({
+                                        title: "Good job!",
+                                        text: "Log in successfull!",
+                                        icon: "success"
+                                    });
+                                    navigate("/");
+                                }
+                            })
+                            .catch(error => console.log(error))
+                    })
+                    .catch(error => console.log(error))
             })
             .catch(error => console.log(error))
-        })
-        .catch(error => console.log(error))
 
     }
 
