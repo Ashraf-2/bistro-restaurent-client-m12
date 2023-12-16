@@ -4,6 +4,7 @@ import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-s
 import { AuthContext } from '../../Providers/AuthProviders';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'
+import GoogleLogin from '../../Components/socialLogin/GoogleLogin';
 
 
 const Login = () => {
@@ -88,6 +89,7 @@ const Login = () => {
                     <div>
                         <p>New Here? <Link to="/singUp"> <span className='font-bold'>Sign Up</span></Link></p>
                     </div>
+                    <GoogleLogin></GoogleLogin>
                 </div>
             </div>
         </div>

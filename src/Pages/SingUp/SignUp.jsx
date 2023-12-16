@@ -5,6 +5,7 @@ import { Result } from "postcss";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import GoogleLogin from "../../Components/socialLogin/GoogleLogin";
 
 const SignUp = () => {
     // const captchaRef = useRef();
@@ -112,6 +113,7 @@ const SignUp = () => {
                             <input type="submit" value="Sign Up" className="btn btn-info"></input>
                         </div>
                     </form>
+                    <GoogleLogin></GoogleLogin>
                 </div>
             </div>
         </div>
