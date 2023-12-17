@@ -5,19 +5,21 @@ import { AuthContext } from '../../Providers/AuthProviders';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'
 import GoogleLogin from '../../Components/socialLogin/GoogleLogin';
+import useAxiosPublic from '../../Hooks/useAxiosPublic';
 
 
 const Login = () => {
     const navigate = useNavigate();
-    const [disableLogin,setDisableLogin]= useState(true);
+    const [disableLogin, setDisableLogin] = useState(true);
     const location = useLocation();
-    const {user,logIn} = useContext(AuthContext);
+    const { user, logIn } = useContext(AuthContext);
 
     const from = location.state?.from?.pathname || "/";
 
-    useEffect(()=>{
-        loadCaptchaEnginge(6); 
-    },[])
+    const axiosPublic = useAxiosPublic();
+    useEffect(() => {
+        loadCaptchaEnginge(6);
+    }, [])
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -25,28 +27,38 @@ const Login = () => {
         const email = form.email.value;
         const password = form.password.value;
         // console.log(email, password);
-        logIn(email,password)
-        .then(res => {
-            const user = res.user;
-            console.log(user);
-            Swal.fire({
-                title: "Good job!",
-                text: "Log in successfull!",
-                icon: "success"
-              });
-            navigate(from, {replace: true});
-            // navigate('/');
-        })
-        .catch(error => console.log(error))
-        
+        logIn(email, password)
+            .then(res => {
+                const user = res.user;
+                console.log(user);
+                const userInfo = {
+                    email: user.email,
+                    name: user.displayName
+                }
+                axiosPublic.post('/users', userInfo)
+                    .then(res => {
+                        console.log(res.data);
+                        Swal.fire({
+                            title: "Good job!",
+                            text: "Log in successfull!",
+                            icon: "success"
+                        });
+                        navigate(from, { replace: true });
+                    })
+                    .catch(error => console.log(error))
+
+                // navigate('/');
+            })
+            .catch(error => console.log(error))
+
     }
-    const handleValidateCaptcha=(e)=> {
+    const handleValidateCaptcha = (e) => {
         const user_captcha_value = e.target.value;
         console.log(user_captcha_value);
-        if(validateCaptcha(user_captcha_value)){
+        if (validateCaptcha(user_captcha_value)) {
             setDisableLogin(false)
         }
-        else{
+        else {
             setDisableLogin(true);
         }
 
