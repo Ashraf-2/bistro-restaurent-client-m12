@@ -1,15 +1,28 @@
-import { useContext } from "react";
-import { AuthContext } from "../../Providers/AuthProviders";
+import { useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const GoogleLogin = () => {
-    const {googleLogin} = useAuth();
+    const { googleLogin } = useAuth();
+    const axiosPublic = useAxiosPublic();
+    const navigate = useNavigate();
+
     const handleGoogleLogin = () => {
         googleLogin()
-        .then(res => {
-            console.log(res.user)
-        })
-        .catch(error => {console.log(error)})
+            .then(res => {
+                console.log(res.user)
+                const userInfo = {
+                    email: res.user?.email,
+                    name: res.user?.displayName,
+                }
+                axiosPublic.post('/users', userInfo)
+                    .then(res => {
+                        console.log(res.data);
+                        navigate('/')
+                    }) 
+                    .catch(error => console.log(error))
+            })
+            .catch(error => { console.log(error) })
     }
     return (
         <div className="text-center my-5 ">
