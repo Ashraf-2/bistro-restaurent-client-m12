@@ -7,7 +7,11 @@ const AllUsers = () => {
     const { data: users = [], refetch } = useQuery({
         queryKey: ["users"],
         queryFn: async () => {
-            const res = await axiosSecure.get('/users');
+            const res = await axiosSecure.get('/users',{
+                headers:{
+                    authorization: `Bearer: ${localStorage.getItem('access-token')}`
+                }
+            });
             return res.data;
         }
     })
@@ -40,8 +44,23 @@ const AllUsers = () => {
         });
     }
 
-    const handleMakeAdmin =(user) => {
+    const handleMakeAdmin = (user) => {
         console.log(user._id);
+        axiosSecure.patch(`/users/admin/${user._id}`)
+            .then(res => {
+                console.log(res.data)
+                if (res.data.modifiedCount > 0) {
+                    Swal.fire({
+                        position: "top-end",
+                        title: `${user.name} is an Admin now`,
+                        text: "User roll has been updated as admin.",
+                        icon: "success",
+                        timer: 1500,
+                    });
+                    refetch();
+                }
+            })
+            .catch(error => console.log(error))
     }
     return (
         <div>
@@ -68,7 +87,11 @@ const AllUsers = () => {
                                 <th>{index + 1}</th>
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
-                                <td  onClick={() => handleMakeAdmin(user)}> <button className="btn btn-ghost">Make Admin</button></td>
+                                <td onClick={() => handleMakeAdmin(user)}>
+                                    {
+                                        user.role === "admin" ? "Admin" : <button className="btn btn-ghost">Make Admin</button>
+                                    }
+                                </td>
                                 <td><button onClick={() => handleDelete(user)} className="btn btn-outline bg-orange-400 text-white">Delete</button></td>
                             </tr>)
                         }
