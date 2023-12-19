@@ -65,7 +65,7 @@ const Cart = () => {
                                     <th>{index + 1}</th>
                                     <td><img src={item.image} className="w-20 rounded-lg" alt="item-image" /> </td>
                                     <td><p className="text-base">{item.name}</p></td>
-                                    <td><p className="text-base">{item.price}</p></td>
+                                    <td><p className="text-base">${item.price}</p></td>
                                     <td>
                                         <button onClick={() => handleDelete(item._id)} className="btn btn-ghost text-red-400">
                                             <MdDeleteOutline className="text-3xl"></MdDeleteOutline>

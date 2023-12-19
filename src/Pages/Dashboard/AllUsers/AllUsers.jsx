@@ -4,14 +4,11 @@ import Swal from "sweetalert2";
 
 const AllUsers = () => {
     const axiosSecure = useAxiosSecure();
+    //fetch token from backend and store in local storage
     const { data: users = [], refetch } = useQuery({
         queryKey: ["users"],
         queryFn: async () => {
-            const res = await axiosSecure.get('/users',{
-                headers:{
-                    authorization: `Bearer: ${localStorage.getItem('access-token')}`
-                }
-            });
+            const res = await axiosSecure.get('/users');
             return res.data;
         }
     })
