@@ -7,6 +7,7 @@ const Dashboard = () => {
     const [cart] = useCart();
     // const isAdmin = true;
     const [isAdmin] = useAdmin();
+    console.log(isAdmin);
     return (
         <div className="flex ">
             {/* side bar of the dashboard */}
@@ -20,6 +21,7 @@ const Dashboard = () => {
                                         <FaHome></FaHome>
                                         Admin Home</NavLink>
                                 </li>
+
                                 <li>
                                     <NavLink to="/dashboard/addItems">
                                         <FaUtensils></FaUtensils>

@@ -53,7 +53,11 @@ const Navbar = () => {
             <div className="navbar-end">
                 {
                     user ?
-                        <button onClick={handleLogOut} className="btn btn-ghost">Log out</button>
+                        <div className="flex items-center">
+
+                            <p>{user.email}</p>
+                            <button onClick={handleLogOut} className="btn btn-ghost">Log out</button>
+                        </div>
                         :
                         <div>
                             <Link to="/login" className="btn btn-ghost">Login</Link>
