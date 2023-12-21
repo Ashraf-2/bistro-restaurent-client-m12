@@ -11,6 +11,7 @@ const useMenu = () => {
                 setMenu(data);
                 setIsLoading(false);
             })
+            // fetch('')
     }, [])
     return [menu,isLoading];
 };

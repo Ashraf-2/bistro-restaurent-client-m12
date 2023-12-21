@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const image_hosting_key = import.meta.env.VITE_IMGAE_HOSTING;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
@@ -8,6 +10,7 @@ const AddItems = () => {
     const { register, handleSubmit } = useForm();
 
     const axiosPublic = useAxiosPublic();
+    const axiosSecure = useAxiosSecure();
     const onSubmit = async (data) => {
         console.log(data)
         //1. upload the image to imagbb and then get the link and send it to server
@@ -18,7 +21,29 @@ const AddItems = () => {
             }
         })
         console.log(res.data)
-        console.log(res.data.display_url)
+        console.log("image url: ",res.data.data.display_url)
+        if(res.data.success){
+            //now send the image url to the database
+            const menuItem = {
+                name: data.name,
+                price: parseFloat(data.price),
+                category: data.category,
+                recipe: data.recipe,
+                image: res.data.data.display_url
+            }
+            // now use axiosSecure 
+            const menuRes = await axiosSecure.post('/menu', menuItem)
+            console.log(menuRes.data)
+            if(menuRes.data.insertedId){
+                //show succeess alert
+                console.log("your item added successfully");
+                Swal.fire({
+                    position: "top-right",
+                    title: "Food Added successfull!",
+                    icon: "success",
+                })
+            }
+        }
     }
     return (
         <div>
@@ -62,7 +87,7 @@ const AddItems = () => {
                             <span className="label-text">Recipe Details</span>
                         </label>
                         {/* <input type="text" className="input input-bordered px-2 w-full" placeholder="Recipe Details" /> */}
-                        <textarea {...register('recipe')} name=""
+                        <textarea {...register('recipe')}
                             className="textarea textarea-bordered w-full"
                             placeholder="Recipe Detail"
                         ></textarea>
