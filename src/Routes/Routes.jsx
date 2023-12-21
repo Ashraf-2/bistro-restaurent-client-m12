@@ -15,6 +15,8 @@ import Cart from "../Pages/Dashboard/Cart/Cart";
 import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
 import AddItems from "../Pages/Dashboard/AddItems/AddItems";
 import AdminRoutes from "./AdminRoutes";
+import ManageItems from "../Pages/Dashboard/ManageItems/ManageItems";
+import ManageBookings from "../Pages/Dashboard/ManageBookings/ManageBookings";
 export const router = createBrowserRouter([
     {
         path: "/",
@@ -66,9 +68,18 @@ export const router = createBrowserRouter([
                 element: <AdminRoutes><AddItems></AddItems></AdminRoutes>
             },
             {
+                path: "manageItems",
+                element: <ManageItems></ManageItems>
+            },
+            {
+                path: "manageBookings",
+                element: <AdminRoutes> <ManageBookings></ManageBookings> </AdminRoutes>
+            },
+            {
                 path: "users",
                 element: <AdminRoutes><AllUsers></AllUsers></AdminRoutes>
-            }
+            },
+            
         ]
     }
 ]);

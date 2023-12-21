@@ -45,8 +45,11 @@ const Dashboard = () => {
                                         <FaUser></FaUser>
                                         All Users</NavLink>
                                 </li>
-
+                                
+                                {/* divider */}
                                 <div className="divider"></div>
+
+
                                 <li>
                                     <NavLink to="/">
                                         <FaHome></FaHome>
@@ -58,7 +61,7 @@ const Dashboard = () => {
                                         Menu</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="/orderFood/contact">
+                                    <NavLink to="/">
                                         <FaEnvelope></FaEnvelope>
                                         Contact</NavLink>
                                 </li>
@@ -76,7 +79,7 @@ const Dashboard = () => {
                                         Menu</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="/orderFood/contact">
+                                    <NavLink to="/">
                                         <FaEnvelope></FaEnvelope>
                                         Contact</NavLink>
                                 </li>
