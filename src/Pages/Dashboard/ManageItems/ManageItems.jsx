@@ -3,14 +3,12 @@ import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
 import useMenu from "../../../Hooks/useMenu";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { Link } from "react-router-dom";
 
 const ManageItems = () => {
-    const [menu,isLoading,refetch] = useMenu();
+    const [menu, isLoading, refetch] = useMenu();
     const axiosSecure = useAxiosSecure();
 
-    const handleEdit = (item) => {
-        console.log(item);
-    }
     const handleDeleteItem = (item) => {
         console.log(item)
         Swal.fire({
@@ -27,7 +25,7 @@ const ManageItems = () => {
                 console.log(res.data);
                 if (res.data.deletedCount > 0) {
                     Swal.fire({
-                        title: `${item.name} is Deleted` ,
+                        title: `${item.name} is Deleted`,
                         text: "Your file has been deleted.",
                         icon: "success"
                     });
@@ -80,8 +78,11 @@ const ManageItems = () => {
                                 <td>{item.name}</td>
                                 <td>${item.price}</td>
                                 <td>
-                                    <button onClick={() => handleEdit(item)} className="btn btn-outline bg-emerald-400 border-none ">Update <FaEdit></FaEdit>
-                                    </button>
+                                    <Link to={`/dashboard/updateItem/${item._id}`}>
+                                        <button className="btn btn-outline bg-emerald-400 border-none ">Update <FaEdit></FaEdit>
+                                        </button>
+                                    </Link>
+
                                 </td>
                                 <td>
                                     <button onClick={() => handleDeleteItem(item)} className="btn btn-outline bg-orange-300 border-none">Delete</button>
@@ -91,7 +92,7 @@ const ManageItems = () => {
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div >
     );
 };
 
