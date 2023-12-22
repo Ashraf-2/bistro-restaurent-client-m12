@@ -1,16 +1,40 @@
 import { FaEdit } from "react-icons/fa";
 import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
 import useMenu from "../../../Hooks/useMenu";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const ManageItems = () => {
-    const [menu, isLoading] = useMenu();
-
+    const [menu,isLoading,refetch] = useMenu();
+    const axiosSecure = useAxiosSecure();
 
     const handleEdit = (item) => {
         console.log(item);
     }
     const handleDeleteItem = (item) => {
         console.log(item)
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const res = await axiosSecure.delete(`/menu/${item._id}`);
+                console.log(res.data);
+                if (res.data.deletedCount > 0) {
+                    Swal.fire({
+                        title: `${item.name} is Deleted` ,
+                        text: "Your file has been deleted.",
+                        icon: "success"
+                    });
+                    refetch();
+                }
+            }
+        });
     }
     // loading spinner load
     if (isLoading) {
@@ -63,9 +87,7 @@ const ManageItems = () => {
                                     <button onClick={() => handleDeleteItem(item)} className="btn btn-outline bg-orange-300 border-none">Delete</button>
                                 </td>
                             </tr>
-                            )
-                        }
-
+                            )}
                     </tbody>
                 </table>
             </div>
