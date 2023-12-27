@@ -2,6 +2,7 @@ import Swal from "sweetalert2";
 import useCart from "../../../Hooks/useCart";
 import { MdDeleteOutline } from "react-icons/md";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { Link } from "react-router-dom";
 
 
 const Cart = () => {
@@ -40,10 +41,14 @@ const Cart = () => {
     }
     return (
         <div>
+            <div className="text-4xl font-bold text-center text-orange-300  my-5">My Cart</div>
             <div className="flex justify-evenly items-center my-2">
                 <h2 className="text-3xl font-bold">Total Items: {cart.length}</h2>
                 <h2 className="text-3xl font-bold">Total Price: {totalPrice}</h2>
-                <button className="btn btn-outline bg-orange-300 text-2xl border-none font-bold">Pay </button>
+
+                <Link to="/dashboard/payment">
+                    <button disabled={!cart.length} className="btn btn-outline bg-orange-300 text-2xl border-none font-bold">Pay </button>
+                </Link>
             </div>
             <div>
                 <div className="overflow-x-auto">

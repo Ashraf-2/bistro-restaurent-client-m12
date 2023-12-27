@@ -16,6 +16,9 @@ const Dashboard = () => {
                     {
                         isAdmin ?
                             <>
+                                <div>
+                                    <h1 className="text-3xl font-bold mb-5">Bistro Boss <br /> Restaurent</h1>
+                                </div>
                                 <li>
                                     <NavLink to="/dashboard/adminHome">
                                         <FaHome></FaHome>
@@ -40,13 +43,13 @@ const Dashboard = () => {
                                         Manage Bookings</NavLink>
                                 </li>
 
-                                
+
                                 <li>
                                     <NavLink to="/dashboard/users">
                                         <FaUser></FaUser>
                                         All Users</NavLink>
                                 </li>
-                                
+
                                 {/* divider */}
                                 <div className="divider"></div>
 
@@ -68,7 +71,43 @@ const Dashboard = () => {
                                 </li>
                             </>
                             :
+                            // not admin, for normal user only.
                             <>
+                                <div>
+                                    <h1 className="text-3xl font-bold mb-5">Bistro Boss <br /> Restaurent</h1>
+                                </div>
+                                <li>
+                                    <NavLink to="/">
+                                        <FaHome></FaHome>
+                                        User Home</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/">
+                                        <FaHome></FaHome>
+                                        Reservation</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/">
+                                        <FaHome></FaHome>
+                                        Payment History</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/">
+                                        <FaHome></FaHome>
+                                        My Cart</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/">
+                                        <FaHome></FaHome>
+                                        Add Review</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/">
+                                        <FaHome></FaHome>
+                                        My Booking</NavLink>
+                                </li>
+                                <div className="divider"></div>
+
                                 <li>
                                     <NavLink to="/">
                                         <FaHome></FaHome>
