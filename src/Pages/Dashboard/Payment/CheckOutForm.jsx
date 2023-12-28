@@ -50,7 +50,7 @@ const CheckOutForm = () => {
             console.log('[error]', error);
             setError(error.message);
         } else {
-            console.log('[PaymentMethod]', paymentMethod);
+            // console.log('[PaymentMethod]', paymentMethod);
             setError('')
             setSuccess(`Your payment successfull and payment id: "${paymentMethod.id}"`)
         }
@@ -70,10 +70,24 @@ const CheckOutForm = () => {
             console.log("confirm Error",confirmError);  
         }
         else{
-            console.log("payment Intent: ",paymentIntent)
+            // console.log("payment Intent: ",paymentIntent)
             if(paymentIntent.status === "succeeded"){
-                console.log('payment successfull and the transection id : ', paymentIntent.id)
+                // console.log('payment successfull and the transection id : ', paymentIntent.id)
                 setTransectionId(paymentIntent.id)
+
+                //now save the payment info in the database.
+                const payment = {
+                    email: user.email,
+                    price: TotalPrice,
+                    date: new Date(),    //utc date convert, "use moment.js"
+                    cartIds: cart.map(item => item._id),
+                    menuItemIds:cart.map(item => item.menuId),
+                    status: 'pending',
+                    transectionId: paymentIntent.id,
+
+                }
+                const res = axiosSecure.post('/payment', payment)
+                console.log('payment saved: ',res)
             }
         }
     }
