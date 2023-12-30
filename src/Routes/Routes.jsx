@@ -19,6 +19,7 @@ import ManageItems from "../Pages/Dashboard/ManageItems/ManageItems";
 import ManageBookings from "../Pages/Dashboard/ManageBookings/ManageBookings";
 import UpdateItem from "../Pages/Dashboard/UpdateItems/UpdateItem";
 import Payment from "../Pages/Dashboard/Payment/Payment";
+import PaymentHistory from "../Pages/Dashboard/PaymentHistory/PaymentHistory";
 export const router = createBrowserRouter([
     {
         path: "/",
@@ -66,6 +67,10 @@ export const router = createBrowserRouter([
             {
                 path: "payment",
                 element: <Payment></Payment>
+            },
+            {
+                path: "paymentHistory",
+                element: <PaymentHistory></PaymentHistory>
             },
             //only admin routes
             {

@@ -3,31 +3,34 @@ import { useEffect, useState } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useCart from "../../../Hooks/useCart";
 import useAuth from "../../../Hooks/useAuth";
+import Swal from "sweetalert2";
 
 const CheckOutForm = () => {
     const stripe = useStripe();
     const elements = useElements();
-    const {user} = useAuth();
+    const { user } = useAuth();
 
-    const [error,setError] = useState('');
+    const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [clientSecret, setClientSecret] = useState('');
     const [transectionId, setTransectionId] = useState('');
 
-    const [cart] = useCart();
+    const [cart,refetch] = useCart();
     const TotalPrice = cart.reduce((total, item) => total + item.price, 0);
 
     const axiosSecure = useAxiosSecure();
     //fetch / load data from the backend server.
-    useEffect(()=> {
-        axiosSecure.post('/create-payment-intent', {price: TotalPrice})
-        .then(res => {
-            console.log(res.data.clientSecret)
-            setClientSecret(res.data.clientSecret)
-        })
-        .catch(error => {
-            console.log(error) 
-        })
+    useEffect(() => {
+        if (TotalPrice > 0) {
+            axiosSecure.post('/create-payment-intent', { price: TotalPrice })
+                .then(res => {
+                    console.log(res.data.clientSecret)
+                    setClientSecret(res.data.clientSecret)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        }
     }, [axiosSecure, TotalPrice])
 
     const handleSubmit = async (e) => {
@@ -56,7 +59,7 @@ const CheckOutForm = () => {
         }
 
         //confirm payment
-        const {paymentIntent, error: confirmError} = await stripe.confirmCardPayment(clientSecret, {
+        const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
             payment_method: {
                 card: card,
                 billing_details: {
@@ -66,12 +69,12 @@ const CheckOutForm = () => {
                 }
             }
         })
-        if(confirmError){
-            console.log("confirm Error",confirmError);  
+        if (confirmError) {
+            console.log("confirm Error", confirmError);
         }
-        else{
+        else {
             // console.log("payment Intent: ",paymentIntent)
-            if(paymentIntent.status === "succeeded"){
+            if (paymentIntent.status === "succeeded") {
                 // console.log('payment successfull and the transection id : ', paymentIntent.id)
                 setTransectionId(paymentIntent.id)
 
@@ -81,13 +84,23 @@ const CheckOutForm = () => {
                     price: TotalPrice,
                     date: new Date(),    //utc date convert, "use moment.js"
                     cartIds: cart.map(item => item._id),
-                    menuItemIds:cart.map(item => item.menuId),
+                    menuItemIds: cart.map(item => item.menuId),
                     status: 'pending',
                     transectionId: paymentIntent.id,
 
                 }
-                const res = axiosSecure.post('/payment', payment)
-                console.log('payment saved: ',res)
+                const res = await axiosSecure.post('/payment', payment)
+                console.log('payment saved: ', res.data)
+                if(res.data?.paymentResult?.insertedId){
+                    Swal.fire({
+                        position: 'top-right',
+                        timer: 1500,
+                        showCloseButton: false,
+                        title: "Thank You for your payment!"
+                    })
+                    refetch();
+                }
+                // refetch();
             }
         }
     }
@@ -114,10 +127,10 @@ const CheckOutForm = () => {
                     Pay
                 </button>
                 {
-                    error?<p>
+                    error ? <p>
                         {error}
-                    </p>:
-                    <p>{success}</p>
+                    </p> :
+                        <p>{success}</p>
 
                 }
                 {

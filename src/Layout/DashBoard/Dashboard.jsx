@@ -87,14 +87,14 @@ const Dashboard = () => {
                                         Reservation</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="/">
+                                    <NavLink to="/dashboard/paymentHistory">
                                         <FaHome></FaHome>
                                         Payment History</NavLink>
                                 </li>
                                 <li>
                                     <NavLink to="/">
                                         <FaHome></FaHome>
-                                        My Cart</NavLink>
+                                        My Cart({cart.length})</NavLink>
                                 </li>
                                 <li>
                                     <NavLink to="/">
@@ -106,6 +106,7 @@ const Dashboard = () => {
                                         <FaHome></FaHome>
                                         My Booking</NavLink>
                                 </li>
+
                                 <div className="divider"></div>
 
                                 <li>

@@ -2,7 +2,7 @@ import Swal from "sweetalert2";
 import useCart from "../../../Hooks/useCart";
 import { MdDeleteOutline } from "react-icons/md";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const Cart = () => {
@@ -10,6 +10,8 @@ const Cart = () => {
     // console.log(cart);
     const totalPrice = cart.reduce((sum, item) => sum + item.price, 0)
     const axiosSecure = useAxiosSecure();
+
+    const navigate = useNavigate();
 
     const handleDelete = (id) => {
         console.log(id);
@@ -46,9 +48,13 @@ const Cart = () => {
                 <h2 className="text-3xl font-bold">Total Items: {cart.length}</h2>
                 <h2 className="text-3xl font-bold">Total Price: {totalPrice}</h2>
 
-                <Link to="/dashboard/payment">
-                    <button disabled={!cart.length} className="btn btn-outline bg-orange-300 text-2xl border-none font-bold">Pay </button>
-                </Link>
+
+                <button onClick={() => {
+                    if (cart.length > 0) {
+                        navigate('/dashboard/payment')
+                    }
+                }} disabled={cart.length == 0} className="btn btn-outline bg-orange-300 text-2xl border-none font-bold">Pay </button>
+
             </div>
             <div>
                 <div className="overflow-x-auto">
