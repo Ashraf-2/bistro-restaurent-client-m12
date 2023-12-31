@@ -1,4 +1,4 @@
-import { FaBook, FaEnvelope, FaHome, FaList, FaSearch, FaUser, FaUtensils } from "react-icons/fa";
+import { FaBook, FaCalendarAlt, FaCalendarCheck, FaCalendarTimes, FaComment, FaEnvelope, FaHome, FaList, FaSearch, FaUser, FaUtensils, FaWallet } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import useCart from "../../Hooks/useCart";
 import useAdmin from "../../Hooks/useAdmin";
@@ -77,33 +77,33 @@ const Dashboard = () => {
                                     <h1 className="text-3xl font-bold mb-5">Bistro Boss <br /> Restaurent</h1>
                                 </div>
                                 <li>
-                                    <NavLink to="/">
+                                    <NavLink to="/dashboard/userHome">
                                         <FaHome></FaHome>
                                         User Home</NavLink>
                                 </li>
                                 <li>
                                     <NavLink to="/">
-                                        <FaHome></FaHome>
+                                        <FaCalendarAlt></FaCalendarAlt>
                                         Reservation</NavLink>
                                 </li>
                                 <li>
                                     <NavLink to="/dashboard/paymentHistory">
-                                        <FaHome></FaHome>
+                                        <FaWallet></FaWallet>
                                         Payment History</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="/">
+                                    <NavLink to="/dashboard/cart">
                                         <FaHome></FaHome>
                                         My Cart({cart.length})</NavLink>
                                 </li>
                                 <li>
                                     <NavLink to="/">
-                                        <FaHome></FaHome>
+                                        <FaComment></FaComment>
                                         Add Review</NavLink>
                                 </li>
                                 <li>
                                     <NavLink to="/">
-                                        <FaHome></FaHome>
+                                        <FaCalendarCheck></FaCalendarCheck>
                                         My Booking</NavLink>
                                 </li>
 

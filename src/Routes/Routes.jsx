@@ -20,6 +20,8 @@ import ManageBookings from "../Pages/Dashboard/ManageBookings/ManageBookings";
 import UpdateItem from "../Pages/Dashboard/UpdateItems/UpdateItem";
 import Payment from "../Pages/Dashboard/Payment/Payment";
 import PaymentHistory from "../Pages/Dashboard/PaymentHistory/PaymentHistory";
+import AdminHome from "../Pages/Dashboard/AdminHome/AdminHome";
+import UserHome from "../Pages/Dashboard/UserHome/UserHome";
 export const router = createBrowserRouter([
     {
         path: "/",
@@ -61,6 +63,10 @@ export const router = createBrowserRouter([
         children: [
             // normal user routes
             {
+                path: "userHome",
+                element: <UserHome></UserHome>
+            },
+            {
                 path: "cart",
                 element: <Cart></Cart>
             },
@@ -73,6 +79,10 @@ export const router = createBrowserRouter([
                 element: <PaymentHistory></PaymentHistory>
             },
             //only admin routes
+            {
+                path:"adminHome",
+                element: <AdminRoutes><AdminHome></AdminHome></AdminRoutes>
+            },
             {
                 path: "addItems",
                 element: <AdminRoutes><AddItems></AddItems></AdminRoutes>

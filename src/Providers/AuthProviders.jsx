@@ -25,6 +25,7 @@ const AuthProviders = ({ children }) => {
                         console.log(res.data)
                         if (res.data.token) {
                             localStorage.setItem('access-token', res.data.token)
+                            setLoading(false);
                         }
                     })
                     .catch(error => console.log(error))
@@ -32,8 +33,9 @@ const AuthProviders = ({ children }) => {
             else {
                 //TODO: remove token (if token stored in the client side: local Storage, caching, in memory)
                 localStorage.removeItem('access-token')
+                setLoading(false);
             }
-            setLoading(false);
+            
         })
         return () => {
             return unsubscribe();
