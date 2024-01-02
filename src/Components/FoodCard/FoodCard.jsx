@@ -27,7 +27,7 @@ const FoodCard = ({ foodItem }) => {
                 image,
                 price,
             }
-            // axios.post('http://localhost:5000/carts',cartItem)  //previous version
+            // axios.post('https://bistro-boss-server-three-nu.vercel.app/carts',cartItem)  //previous version
             axiosSecure.post('/carts',cartItem)
             .then(res => {
                 console.log(res.data)
